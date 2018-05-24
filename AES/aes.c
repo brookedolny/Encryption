@@ -192,7 +192,3 @@ void subWord(uint8_t * word) {
          }
      }
  }
-
-int main(void) {
-
-}
