@@ -69,13 +69,6 @@ void addPolynomial(uint8_t * a, const uint8_t * b) {
     }
 }
 
-uint8_t * addPolynomial2(const uint8_t * a, const uint8_t * b) {
-    uint8_t * d = malloc(4 * sizeof(uint8_t));
-    for(int i = 0; i < 4; i++) {
-        d[i] = a[i] ^ b[i];
-    }
-    return d;
-}
 
 /**
  * Multiplys two polynomials with coefficents of binary polynomials. This
@@ -92,14 +85,10 @@ void multiplyPolynomial(uint8_t * a, const uint8_t * b) {
      }
  }
 
-// TODO delete this
-uint8_t * multiplyPolynomial2(const uint8_t * a, const uint8_t * b) {
-    uint8_t * d = malloc(4 * sizeof(uint8_t));
-    d[0] = (multiply(a[0],b[0])) ^ (multiply(a[3],b[1])) ^ (multiply(a[2],b[2])) ^ (multiply(a[1],b[3]));
-    d[1] = (multiply(a[1],b[0])) ^ (multiply(a[0],b[1])) ^ (multiply(a[3],b[2])) ^ (multiply(a[2],b[3]));
-    d[2] = (multiply(a[2],b[0])) ^ (multiply(a[1],b[1])) ^ (multiply(a[0],b[2])) ^ (multiply(a[3],b[3]));
-    d[3] = (multiply(a[3],b[0])) ^ (multiply(a[2],b[1])) ^ (multiply(a[1],b[2])) ^ (multiply(a[0],b[3]));
-    return d;
+
+void rotateWord(uint8_t * word) {
+    static uint8_t shift1[4] = {0, 0, 0, 1};
+    multiplyPolynomial(word, shift1);
 }
 
 void shiftRows(uint8_t ** state) {
@@ -125,13 +114,29 @@ void mixColumns(uint8_t ** state) {
     }
 }
 
+uint8_t subByte(uint8_t byte) {
+    return sbox[byte / 16][byte % 16];
+}
 
+
+void subWord(uint8_t * word) {
+    for(int i = 0; i < 4; i++) {
+        // word[i] = subByte(word[i]);
+        word[i] = subByte(word[i]);
+    }
+}
+
+
+ void subBytes(uint8_t ** state) {
+     for(int i = 0; i < 4; i++) {
+         for(int j = 0; j < 4; j++) {
+             // state[i][j] = subByte(state[i][j]);
+             state[i][j] = subByte(state[i][j]);
+         }
+     }
+ }
 
 
 int main(void) {
-//    uint8_t
-// currently, polynomials are represented as {a,b,c,d} = ax^0 + bx^1 + cx^2 + dx^3.
-// this may mess up implementation of this algorithm.
-// TODO check the above condition
 
 }
