@@ -12,7 +12,7 @@ extern uint8_t rcon[256];
  */
 uint8_t xtime(uint8_t x);
 
-/*
+/**
  * Multiplication of two binary polynomials mod m(x), with m(x) being an
  * irreducible binary polynomial of degree 8.
  * The AES uses m(x) = x^8 + x^4 + x^3 + x + 1.
@@ -36,10 +36,16 @@ void addPolynomial(uint8_t * a, const uint8_t * b);
  */
 void multiplyPolynomial(uint8_t * a, const uint8_t * b);
 
-
+/**
+ * Performs the transformation [b0, b1, b2, b3] -> [b1, b2, b3, b0] for a given
+ * polynomial with binary polynomial coefficients (elements in GF(2^8)).
+ */
 void rotateWord(uint8_t * word);
 
-
+/**
+ * Performs the "ShiftRows(state)" operation as defined by the Advanced Encryption
+ * Standard.
+ */
 void shiftRows(uint8_t ** state);
 
 

@@ -1,6 +1,5 @@
 #include "aes.h"
 
-
 uint8_t xtime(uint8_t x) {
     return x >= 128 ? (x << 1) ^ 0x1b : x << 1;
 }
