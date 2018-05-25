@@ -75,7 +75,6 @@ void mixColumns(uint8_t ** state) {
 
 void subWord(uint8_t * word) {
     for(int i = 0; i < 4; i++) {
-        // word[i] = subByte(word[i]);
         word[i] = sbox[word[i]];
     }
 }
@@ -84,7 +83,6 @@ void subWord(uint8_t * word) {
 void subBytes(uint8_t ** state) {
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
-            // state[i][j] = subByte(state[i][j]);
             state[i][j] = sbox[state[i][j]];
         }
     }
@@ -92,11 +90,7 @@ void subBytes(uint8_t ** state) {
 
 
 void keyExpansion(uint8_t * key, uint8_t ** words, int Nk, int Nb, int Nr) {
-    // Nk is key length (# of words)
-    // Nb is block size (4 bytes)
-    // Nr is number of rounds (to perform the algorithm)
-    // key should be of length 4 * Nk
-    // word should be an array of length Nb * (Nr + 1)
+    // Nk is key length, Nb is block size, Nr is number of rounds
     uint8_t temp[4];
     for(int i = 0; i < Nk; i++) {
         for(int j = 0; j < 4; j++) {
@@ -110,9 +104,7 @@ void keyExpansion(uint8_t * key, uint8_t ** words, int Nk, int Nb, int Nr) {
         if(i % Nk == 0) {
             rotateWord(temp);
             subWord(temp);
-            for(int j = 0; j < 4; j++) {
-                temp[j] = rcon[i / Nk] ^ temp[j];
-            }
+            temp[0] = rcon[i / Nk] ^ temp[0];
         } else if (Nk > 6 && i % Nk == 4) {
             subWord(temp);
         }
