@@ -91,7 +91,7 @@ void subBytes(uint8_t state[4][4]) {
     }
 }
 
-// TODO test this
+
 void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     // Nk is key length, Nb is block size, Nr is number of rounds
     uint8_t temp[4];
@@ -117,12 +117,11 @@ void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     }
 }
 
-// TODO test this
+
 void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd) {
-    uint8_t temp[4];
     for(int i = 0; i < Nb; i++) {
         for(int j = 0; j < 4; j++) {
-            temp[j] = state[j][i] ^ words[rnd * Nb + i][j];
+            state[j][i] ^= words[rnd * Nb + i][j];
         }
     }
 }

@@ -83,7 +83,7 @@ void subWord(uint8_t * word);
  *
  * @param state the current state
  */
- void subBytes(uint8_t state[4][4]);
+void subBytes(uint8_t state[4][4]);
 
 /**
  * Expands the given ciper key into Nb * (Nr + 1) words, where each word is
@@ -96,7 +96,11 @@ void subWord(uint8_t * word);
  * @param Nb the block size (as stated in the standard)
  * @param Nr the number of rounds to be performed (as stated in the standard)
  */
- void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr);
+void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr);
+
+void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd);
+
+void roundKeyTransformation(uint8_t state[4][4], uint8_t words[][4], int Nb, int Nr);
 
 
 #endif
