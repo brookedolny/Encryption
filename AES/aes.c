@@ -1,5 +1,6 @@
 #include "aes.h"
 
+
 uint8_t xtime(uint8_t x) {
     return x >= 128 ? (x << 1) ^ 0x1b : x << 1;
 }
@@ -49,7 +50,8 @@ void rotateWord(uint8_t * word) {
     multiplyPolynomial(word, shift1);
 }
 
-void shiftRows(uint8_t ** state) {
+// TODO test this
+void shiftRows(uint8_t state[4][4]) {
     static uint8_t shift1[4] = {0, 0, 0, 1}; // x^3
     static uint8_t shift2[4] = {0, 0, 1, 0}; // x^2
     static uint8_t shift3[4] = {0, 1, 0, 0}; // x
@@ -58,7 +60,8 @@ void shiftRows(uint8_t ** state) {
     multiplyPolynomial(state[3], shift3);
 }
 
-void mixColumns(uint8_t ** state) {
+// TODO test this
+void mixColumns(uint8_t state[4][4]) {
     uint8_t temp[4];
     for(int i = 0; i < 4; i++) {
         temp[0] = (xtime(state[0][i])) ^ (xtime(state[1][i])) ^ state[1][i] ^ state[2][i] ^ state[3][i];
@@ -80,7 +83,7 @@ void subWord(uint8_t * word) {
 }
 
 
-void subBytes(uint8_t ** state) {
+void subBytes(uint8_t state[4][4]) {
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
             state[i][j] = sbox[state[i][j]];
@@ -88,8 +91,8 @@ void subBytes(uint8_t ** state) {
     }
 }
 
-
-void keyExpansion(uint8_t * key, uint8_t ** words, int Nk, int Nb, int Nr) {
+// TODO test this
+void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     // Nk is key length, Nb is block size, Nr is number of rounds
     uint8_t temp[4];
     for(int i = 0; i < Nk; i++) {
@@ -111,5 +114,22 @@ void keyExpansion(uint8_t * key, uint8_t ** words, int Nk, int Nb, int Nr) {
         for(int j = 0; j < 4; j++) {
             words[i][j] = words[i - Nk][j] ^ temp[j];
         }
+    }
+}
+
+// TODO test this
+void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd) {
+    uint8_t temp[4];
+    for(int i = 0; i < Nb; i++) {
+        for(int j = 0; j < 4; j++) {
+            temp[j] = state[j][i] ^ words[rnd * Nb + i][j];
+        }
+    }
+}
+
+// TODO test this
+void roundKeyTransformation(uint8_t state[4][4], uint8_t words[][4], int Nb, int Nr) {
+    for(int i = 0; i <= Nr; i++) {
+        addRoundKey(state, words, Nb, i);
     }
 }
