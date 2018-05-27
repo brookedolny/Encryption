@@ -1,5 +1,4 @@
 #include "aes.h"
-#include <stdio.h> // TODO to be deleted
 
 uint8_t xtime(uint8_t x) {
     return x >= 128 ? (x << 1) ^ 0x1b : x << 1;
@@ -126,14 +125,6 @@ void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd) {
     }
 }
 
-void printState(uint8_t state[4][4]) {
-    for(int i = 0; i < 4; i++) {
-        for(int j = 0; j < 4; j++) {
-            printf("%02x ", state[i][j]);
-        }
-        printf("\n");
-    }
-}
 
 void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
     uint8_t state[4][4];
