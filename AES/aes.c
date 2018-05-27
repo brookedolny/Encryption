@@ -1,5 +1,5 @@
 #include "aes.h"
-
+#include <stdio.h> // TODO to be deleted
 
 uint8_t xtime(uint8_t x) {
     return x >= 128 ? (x << 1) ^ 0x1b : x << 1;
@@ -102,7 +102,7 @@ void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     }
     for(int i = Nk; i < Nb * (Nr + 1); i++) {
         for(int j = 0; j < 4; j++) {
-            temp[j] = words[i][j];
+            temp[j] = words[i - 1][j];
         }
         if(i % Nk == 0) {
             rotateWord(temp);
@@ -124,4 +124,43 @@ void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd) {
             state[j][i] ^= words[rnd * Nb + i][j];
         }
     }
+}
+
+void printState(uint8_t state[4][4]) {
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            printf("%02x ", state[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
+    uint8_t state[4][4];
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            state[j][i] = bytes[4 * i + j];
+        }
+    }
+
+    uint8_t words[Nb * (Nr + 1)][4];
+    keyExpansion(key, words, Nk, Nb, Nr);
+    addRoundKey(state, words, Nb, 0);
+    for(int i = 1; i < Nr; i++) {
+        subBytes(state);
+        shiftRows(state);
+        mixColumns(state);
+        addRoundKey(state, words, Nb, i);
+    }
+
+    subBytes(state);
+    shiftRows(state);
+    addRoundKey(state, words, Nb, Nr);
+
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            bytes[4 * i + j] = state[i][j];
+        }
+    }
+
 }

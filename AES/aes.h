@@ -100,5 +100,6 @@ void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr);
 
 void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd);
 
+void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
 
 #endif
