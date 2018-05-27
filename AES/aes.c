@@ -50,7 +50,7 @@ void rotateWord(uint8_t * word) {
     multiplyPolynomial(word, shift1);
 }
 
-// TODO test this
+
 void shiftRows(uint8_t state[4][4]) {
     static uint8_t shift1[4] = {0, 0, 0, 1}; // x^3
     static uint8_t shift2[4] = {0, 0, 1, 0}; // x^2
@@ -60,14 +60,14 @@ void shiftRows(uint8_t state[4][4]) {
     multiplyPolynomial(state[3], shift3);
 }
 
-// TODO test this
+
 void mixColumns(uint8_t state[4][4]) {
     uint8_t temp[4];
     for(int i = 0; i < 4; i++) {
         temp[0] = (xtime(state[0][i])) ^ (xtime(state[1][i])) ^ state[1][i] ^ state[2][i] ^ state[3][i];
         temp[1] = state[0][i] ^ (xtime(state[1][i])) ^ (xtime(state[2][i])) ^ state[2][i] ^ state[3][i];
         temp[2] = state[0][i] ^ state[1][i] ^ (xtime(state[2][i])) ^ (xtime(state[3][i])) ^ state[3][i];
-        temp[0] = (xtime(state[0][i])) ^ state[0][i] ^ state[1][i] ^ state[2][i] ^ (xtime(state[3][i]));
+        temp[3] = (xtime(state[0][i])) ^ state[0][i] ^ state[1][i] ^ state[2][i] ^ (xtime(state[3][i]));
         state[0][i] = temp[0];
         state[1][i] = temp[1];
         state[2][i] = temp[2];
@@ -123,12 +123,5 @@ void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd) {
         for(int j = 0; j < 4; j++) {
             state[j][i] ^= words[rnd * Nb + i][j];
         }
-    }
-}
-
-// TODO test this
-void roundKeyTransformation(uint8_t state[4][4], uint8_t words[][4], int Nb, int Nr) {
-    for(int i = 0; i <= Nr; i++) {
-        addRoundKey(state, words, Nb, i);
     }
 }
