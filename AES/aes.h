@@ -5,7 +5,7 @@
 
 extern uint8_t sbox[256];
 extern uint8_t rcon[256];
-
+extern uint8_t invSbox[256];
 /**
  * Multiplys a given binary polynomial by the binary polynomial x modulo the
  * binary polynomial m(x) = x^8 + x^4 + x^3 + x + 1.
@@ -61,6 +61,9 @@ void rotateWord(uint8_t * word);
  */
 void shiftRows(uint8_t state[4][4]);
 
+
+void invShiftRows(uint8_t state[4][4]);
+
 /**
  * Performs the "MixColumns(state)" operation as defined by the Advanced Encryption
  * Standard.
@@ -68,6 +71,9 @@ void shiftRows(uint8_t state[4][4]);
  * @param state the current state
  */
 void mixColumns(uint8_t state[4][4]);
+
+
+void invMixColumns(uint8_t state[4][4]);
 
 /**
  * Uses the Rijndael SBox as defined in aes_tables.c to substitute values
@@ -77,6 +83,9 @@ void mixColumns(uint8_t state[4][4]);
  */
 void subWord(uint8_t * word);
 
+
+void invSubWord(uint8_t * word);
+
 /**
  * Uses the Rijndael SBox as defined in aes_tables.c to substitute values
  * in the current state with the correspoinding values in the sbox array.
@@ -84,6 +93,9 @@ void subWord(uint8_t * word);
  * @param state the current state
  */
 void subBytes(uint8_t state[4][4]);
+
+
+void invSubBytes(uint8_t state[4][4]);
 
 /**
  * Expands the given ciper key into Nb * (Nr + 1) words, where each word is
@@ -98,8 +110,21 @@ void subBytes(uint8_t state[4][4]);
  */
 void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr);
 
+/**
+ * Adds the current round's key to the state from the expanded key.
+ *
+ * @param state the current state array
+ * @param words the expanded key
+ * @param Nb block size
+ * @param rnd the current round of the key to apply
+ */
 void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd);
 
+/**
+ *
+ */
 void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
+
+void decrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
 
 #endif

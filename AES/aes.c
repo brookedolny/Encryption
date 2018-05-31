@@ -1,4 +1,5 @@
 #include "aes.h"
+#include <stdio.h>
 
 uint8_t xtime(uint8_t x) {
     return x >= 128 ? (x << 1) ^ 0x1b : x << 1;
@@ -6,9 +7,6 @@ uint8_t xtime(uint8_t x) {
 
 
 uint8_t multiply(uint8_t x, uint8_t y) {
-    if(x == 0 || y == 0) {
-        return 0;
-    }
     uint8_t product = 0;
     uint8_t basis[8];
     basis[0] = x;
@@ -59,6 +57,14 @@ void shiftRows(uint8_t state[4][4]) {
     multiplyPolynomial(state[3], shift3);
 }
 
+void invShiftRows(uint8_t state[4][4]) {
+    static uint8_t shift1[4] = {0, 1, 0, 0}; // x
+    static uint8_t shift2[4] = {0, 0, 1, 0}; // x^2
+    static uint8_t shift3[4] = {0, 0, 0, 1}; // x^3
+    multiplyPolynomial(state[1], shift1);
+    multiplyPolynomial(state[2], shift2);
+    multiplyPolynomial(state[3], shift3);
+}
 
 void mixColumns(uint8_t state[4][4]) {
     uint8_t temp[4];
@@ -74,10 +80,31 @@ void mixColumns(uint8_t state[4][4]) {
     }
 }
 
+void invMixColumns(uint8_t state[4][4]) {
+    uint8_t temp[4];
+    for(int i = 0; i < 4; i++) {
+        temp[0] = multiply(0x0e, state[0][i]) ^ multiply(0x0b, state[1][i]) ^ multiply(0x0d, state[2][i]) ^ multiply(0x09, state[3][i]);
+        temp[1] = multiply(0x09, state[0][i]) ^ multiply(0x0e, state[1][i]) ^ multiply(0x0b, state[2][i]) ^ multiply(0x0d, state[3][i]);
+        temp[2] = multiply(0x0d, state[0][i]) ^ multiply(0x09, state[1][i]) ^ multiply(0x0e, state[2][i]) ^ multiply(0x0b, state[3][i]);
+        temp[3] = multiply(0x0b, state[0][i]) ^ multiply(0x0d, state[1][i]) ^ multiply(0x09, state[2][i]) ^ multiply(0x0e, state[3][i]);
+        state[0][i] = temp[0];
+        state[1][i] = temp[1];
+        state[2][i] = temp[2];
+        state[3][i] = temp[3];
+
+    }
+}
+
 
 void subWord(uint8_t * word) {
     for(int i = 0; i < 4; i++) {
         word[i] = sbox[word[i]];
+    }
+}
+
+void invSubWord(uint8_t * word) {
+    for(int i = 0; i < 4; i++) {
+        word[i] = invSbox[word[i]];
     }
 }
 
@@ -90,6 +117,13 @@ void subBytes(uint8_t state[4][4]) {
     }
 }
 
+void invSubBytes(uint8_t state[4][4]) {
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            state[i][j] = invSbox[state[i][j]];
+        }
+    }
+}
 
 void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     // Nk is key length, Nb is block size, Nr is number of rounds
@@ -128,13 +162,12 @@ void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd) {
 
 void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
     uint8_t state[4][4];
+    uint8_t words[Nb * (Nr + 1)][4];
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
             state[j][i] = bytes[4 * i + j];
         }
     }
-
-    uint8_t words[Nb * (Nr + 1)][4];
     keyExpansion(key, words, Nk, Nb, Nr);
     addRoundKey(state, words, Nb, 0);
     for(int i = 1; i < Nr; i++) {
@@ -143,15 +176,39 @@ void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
         mixColumns(state);
         addRoundKey(state, words, Nb, i);
     }
-
     subBytes(state);
     shiftRows(state);
     addRoundKey(state, words, Nb, Nr);
-
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
-            bytes[4 * i + j] = state[i][j];
+            bytes[4 * i + j] = state[j][i];
         }
     }
+}
 
+
+void decrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
+    uint8_t state[4][4];
+    uint8_t words[Nb * (Nr + 1)][4];
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            state[j][i] = bytes[4 * i + j];
+        }
+    }
+    keyExpansion(key, words, Nk, Nb, Nr);
+    addRoundKey(state, words, Nb, Nr);
+    for(int i = Nr - 1; i > 0; i--) {
+        invShiftRows(state);
+        invSubBytes(state);
+        addRoundKey(state, words, Nb, i);
+        invMixColumns(state);
+    }
+    invShiftRows(state);
+    invSubBytes(state);
+    addRoundKey(state, words, Nb, 0);
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++) {
+            bytes[4 * i + j] = state[j][i];
+        }
+    }
 }
