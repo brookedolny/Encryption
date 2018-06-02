@@ -159,15 +159,13 @@ void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd) {
 }
 
 
-void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
+void encrypt(uint8_t * bytes, uint8_t words[][4], int Nk, int Nb, int Nr) {
     uint8_t state[4][4];
-    uint8_t words[Nb * (Nr + 1)][4];
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
             state[j][i] = bytes[4 * i + j];
         }
     }
-    keyExpansion(key, words, Nk, Nb, Nr);
     addRoundKey(state, words, Nb, 0);
     for(int i = 1; i < Nr; i++) {
         subBytes(state);
@@ -186,15 +184,13 @@ void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
 }
 
 
-void decrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr) {
+void decrypt(uint8_t * bytes, uint8_t words[][4], int Nk, int Nb, int Nr) {
     uint8_t state[4][4];
-    uint8_t words[Nb * (Nr + 1)][4];
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
             state[j][i] = bytes[4 * i + j];
         }
     }
-    keyExpansion(key, words, Nk, Nb, Nr);
     addRoundKey(state, words, Nb, Nr);
     for(int i = Nr - 1; i > 0; i--) {
         invShiftRows(state);

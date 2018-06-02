@@ -140,22 +140,22 @@ void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd);
  * Expands the key and encrypts the input bytes
  *
  * @param bytes the 128 bits to be encrypted
- * @param key the key to encrypt the bytes with
+ * @param words the expanded key to encrypt the input bytes
  * @param Nk the size of the key (in number of 4 byte words)
  * @param Nb the block size (in number of 4 byte words)
  * @param Nr the number of rounds to perform
  */
-void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
+void encrypt(uint8_t * bytes, uint8_t words[][4], int Nk, int Nb, int Nr);
 
 /**
  * Expands the key and decrypts the input bytes
  *
  * @param bytes the 128 bits to be decrypted
- * @param key the key to decrypt the bytes with
+ * @param words the expanded key to decrypt the input bytes
  * @param Nk the size of the key (in number of 4 byte words)
  * @param Nb the block size (in number of 4 byte words)
  * @param Nr the number of rounds to perform
  */
-void decrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
+void decrypt(uint8_t * bytes, uint8_t words[][4], int Nk, int Nb, int Nr);
 
 #endif
