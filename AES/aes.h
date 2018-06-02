@@ -7,7 +7,7 @@ extern uint8_t sbox[256];
 extern uint8_t rcon[256];
 extern uint8_t invSbox[256];
 /**
- * Multiplys a given binary polynomial by the binary polynomial x modulo the
+ * Multiplies a given binary polynomial by the binary polynomial x modulo the
  * binary polynomial m(x) = x^8 + x^4 + x^3 + x + 1.
  *
  * @param x the binary polynomial to be multiplied by x.
@@ -36,7 +36,7 @@ uint8_t multiply(uint8_t x, uint8_t y);
 void addPolynomial(uint8_t * a, const uint8_t * b);
 
 /**
- * Multiplys two polynomials with coefficents of binary polynomials. This
+ * Multiplies two polynomials with coefficents of binary polynomials. This
  * multiplication is done modulo m(x) = x^4 + 1.
  *
  * @param a the first polynomial in the product. The final product will be
@@ -141,8 +141,8 @@ void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd);
  *
  * @param bytes the 128 bits to be encrypted
  * @param key the key to encrypt the bytes with
- * @param Nk the size of the key (in number of 4 bit words)
- * @param Nb the block size (in number of 4 bit words)
+ * @param Nk the size of the key (in number of 4 byte words)
+ * @param Nb the block size (in number of 4 byte words)
  * @param Nr the number of rounds to perform
  */
 void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
@@ -152,8 +152,8 @@ void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
  *
  * @param bytes the 128 bits to be decrypted
  * @param key the key to decrypt the bytes with
- * @param Nk the size of the key (in number of 4 bit words)
- * @param Nb the block size (in number of 4 bit words)
+ * @param Nk the size of the key (in number of 4 byte words)
+ * @param Nb the block size (in number of 4 byte words)
  * @param Nr the number of rounds to perform
  */
 void decrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
