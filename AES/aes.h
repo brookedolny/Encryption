@@ -61,7 +61,11 @@ void rotateWord(uint8_t * word);
  */
 void shiftRows(uint8_t state[4][4]);
 
-
+/**
+ * Inverse of shiftRows operation.
+ *
+ * @param state the current state
+ */
 void invShiftRows(uint8_t state[4][4]);
 
 /**
@@ -72,7 +76,11 @@ void invShiftRows(uint8_t state[4][4]);
  */
 void mixColumns(uint8_t state[4][4]);
 
-
+/**
+ * Inverse of mixColumns operation.
+ *
+ * @param state the current state
+ */
 void invMixColumns(uint8_t state[4][4]);
 
 /**
@@ -83,7 +91,11 @@ void invMixColumns(uint8_t state[4][4]);
  */
 void subWord(uint8_t * word);
 
-
+/**
+ * Inverse of subWord operation. Uses the invSbox defined in aes_tables.c
+ *
+ * @param word the word to have it's bytes substituted
+ */
 void invSubWord(uint8_t * word);
 
 /**
@@ -94,7 +106,11 @@ void invSubWord(uint8_t * word);
  */
 void subBytes(uint8_t state[4][4]);
 
-
+/**
+ * Inverse of subBytes operation. Uses the invSbox defined in aes_tables.c
+ *
+ * @param state the current state
+ */
 void invSubBytes(uint8_t state[4][4]);
 
 /**
@@ -121,10 +137,25 @@ void keyExpansion(uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr);
 void addRoundKey(uint8_t state[4][4], uint8_t words[][4], int Nb, int rnd);
 
 /**
+ * Expands the key and encrypts the input bytes
  *
+ * @param bytes the 128 bits to be encrypted
+ * @param key the key to encrypt the bytes with
+ * @param Nk the size of the key (in number of 4 bit words)
+ * @param Nb the block size (in number of 4 bit words)
+ * @param Nr the number of rounds to perform
  */
 void encrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
 
+/**
+ * Expands the key and decrypts the input bytes
+ *
+ * @param bytes the 128 bits to be decrypted
+ * @param key the key to decrypt the bytes with
+ * @param Nk the size of the key (in number of 4 bit words)
+ * @param Nb the block size (in number of 4 bit words)
+ * @param Nr the number of rounds to perform
+ */
 void decrypt(uint8_t * bytes, uint8_t * key, int Nk, int Nb, int Nr);
 
 #endif
