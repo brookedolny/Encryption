@@ -1,8 +1,22 @@
-#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "aes.h"
 
-// TODO probably make this random at some point
-uint8_t tempInitVector[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t tempInitVector[16];
+
+
+void generateInitVector(void) {
+    // NOTE: this implementation of CBC is technically invalid.
+    // the random number generation for the initalization vector is not
+    // uniformly distributed, and uses an LCG which can be implemented
+    // in a way that generates predictable random numbers. Also,
+    // using the time as a the seed can cause obvious problems.
+    srand(time(NULL));
+    for(int i = 0; i < 16; i++) {
+        tempInitVector[i] = (uint8_t) (rand() % 256);
+    }
+}
+
 
 void encryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int Nk, int Nb, int Nr) {
     for(int i = 0; i < Nb * 4; i++) {
@@ -17,5 +31,3 @@ void decryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int Nk
         text[i] ^= previous[i];
     }
 }
-
-int main() {}
