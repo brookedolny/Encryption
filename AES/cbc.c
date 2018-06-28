@@ -1,17 +1,15 @@
 #include <stdlib.h>
 #include <time.h>
 #include "aes.h"
+#include "cbc.h"
 
-uint8_t tempInitVector[16];
 
-
-void generateInitVector(void) {
+void generateInitVector(uint8_t * initVector) {
     srand(time(NULL));
     for(int i = 0; i < 16; i++) {
-        tempInitVector[i] = (uint8_t) (rand() % 256);
+        initVector[i] = (uint8_t) (rand() % 256);
     }
 }
-
 
 void encryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int Nk, int Nb, int Nr) {
     for(int i = 0; i < Nb * 4; i++) {
