@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 
 /**
  * Generates a random 128-bit initalization vector.
@@ -30,3 +31,5 @@ void encryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int Nk
  * @param Nr the number of rounds to perform the AES algorithm
  */
 void decryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int Nk, int Nb, int Nr);
+
+void cbcEncryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * key, int type);
