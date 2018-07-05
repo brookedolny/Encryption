@@ -33,3 +33,5 @@ void encryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int Nk
 void decryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int Nk, int Nb, int Nr);
 
 void cbcEncryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * key, int type);
+
+void cbcDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * key, int type);

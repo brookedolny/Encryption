@@ -5,10 +5,10 @@
 #include "aes.h"
 #include "cbc.h"
 
-void generateRandomBytes(uint8_t * initVector) {
+void generateRandomBytes(uint8_t * bytes) {
     srand(time(NULL));
     for(int i = 0; i < 16; i++) {
-        initVector[i] = (uint8_t) (rand() % 256);
+        bytes[i] = (uint8_t) (rand() % 256);
     }
 }
 
@@ -35,7 +35,9 @@ void pkcs7AddPadding(uint8_t * block, size_t elements) {
     }
 }
 
-
+size_t pkcs7RemovePadding(uint8_t * block) {
+    return 16 - block[15];
+}
 
 void cleanMemory(uint8_t * previous, uint8_t * text, uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     for(int i = 0; i < Nb * 4; i++) {
@@ -92,4 +94,61 @@ void cbcEncryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
     }
 
     cleanMemory(previous, text, key, words, Nk, Nb, Nr);
+}
+
+void cbcDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * key, int type) {
+    assert(type == 128 || type == 192 || type == 256);
+    int Nk = type / 32;
+    int Nb = 4;
+    int Nr = type == 128 ? 10 : (type == 192 ? 12 : 14);
+
+    uint8_t previous[16];
+    uint8_t previousCipher[16];
+    uint8_t text[16];
+    uint8_t words[Nb*(Nr+1)][4];
+
+    keyExpansion(key, words, Nk, Nb, Nr);
+
+    size_t elements = fread(previous, 1, 16, ciphertextStream); // inital garbage block
+    if(elements < 16) {
+        assert(0 && "wrong final block size");
+        return;
+    }
+    elements = fread(text, 1, 16, ciphertextStream); // initial file data
+    if(elements < 16) {
+        assert(0 && "wrong final block size");
+        return;
+    }
+    for(int i = 0; i < 16; i++) {
+        previousCipher[i] = text[i];
+    }
+    cbcDecryptBlock(previous, text, words, Nk, Nb, Nr);
+    for(int i = 0; i < 16; i++) {
+        previous[i] = previousCipher[i];
+    }
+    while(elements == 16) {
+        fwrite(text, 1, 16, plaintextStream);
+        elements = fread(text, 1, 16, ciphertextStream); // actual file data
+        for(int i = 0; i < 16; i++) {
+            previousCipher[i] = text[i];
+        }
+        cbcDecryptBlock(previous, text, words, Nk, Nb, Nr);
+        for(int i = 0; i < 16; i++) {
+            previous[i] = previousCipher[i];
+        }
+    }
+
+    if(elements != 0) {
+        assert(0 && "wrong final block size");
+    }
+    if(feof(ciphertextStream)) {
+        cbcDecryptBlock(previous, text, words, Nk, Nb, Nr);
+        elements = pkcs7RemovePadding(text);
+        fwrite(text, 1, elements, ciphertextStream);
+    }
+
+    cleanMemory(previous, text, key, words, Nk, Nb, Nr);
+    for(int i = 0; i < 16; i++) {
+        previousCipher[i] = 0;
+    }
 }
