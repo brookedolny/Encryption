@@ -1,3 +1,6 @@
+#ifndef CBC_H
+#define CBC_H
+
 #include <stdint.h>
 #include <string.h>
 
@@ -51,3 +54,5 @@ void cbcEncryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
  * @param type the flavour of AES to decrypt the document with
  */
 void cbcDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * key, int type);
+
+#endif
