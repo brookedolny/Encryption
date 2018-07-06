@@ -4,6 +4,7 @@
 #include <assert.h>
 #include "aes.h"
 #include "cbc.h"
+#include "padding.h"
 
 void generateRandomBytes(uint8_t * bytes) {
     srand(time(NULL));
@@ -26,20 +27,7 @@ void cbcDecryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int
     }
 }
 
-void pkcs7AddPadding(uint8_t * block, size_t elements) {
-    uint8_t n = 16 - elements;
-    for(int i = 0; i < 16; i++) {
-        if(i >= elements) {
-            block[i] = n;
-        }
-    }
-}
-
-size_t pkcs7RemovePadding(uint8_t * block) {
-    return 16 - block[15];
-}
-
-void cleanMemory(uint8_t * previous, uint8_t * text, uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
+void cleanCBCMemory(uint8_t * previous, uint8_t * text, uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     for(int i = 0; i < Nb * 4; i++) {
         previous[i] = 0;
         text[i] = 0;
@@ -93,7 +81,7 @@ void cbcEncryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
         fwrite(text, 1, 16, ciphertextStream);
     }
 
-    cleanMemory(previous, text, key, words, Nk, Nb, Nr);
+    cleanCBCMemory(previous, text, key, words, Nk, Nb, Nr);
 }
 
 void cbcDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * key, int type) {
@@ -147,7 +135,7 @@ void cbcDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
         fwrite(text, 1, elements, ciphertextStream);
     }
 
-    cleanMemory(previous, text, key, words, Nk, Nb, Nr);
+    cleanCBCMemory(previous, text, key, words, Nk, Nb, Nr);
     for(int i = 0; i < 16; i++) {
         previousCipher[i] = 0;
     }
