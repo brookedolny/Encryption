@@ -4,12 +4,6 @@
 #include <stdint.h>
 #include <string.h>
 
-/**
- * Generates a random 128-bit initalization vector.
- *
- * @param initVector array of 16 uint8_t's where the init vector will be stored
- */
-void generateInitVector(uint8_t * initVector);
 
 /**
  * Encrypts one block with the CBC mode of encryption

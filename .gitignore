@@ -1,6 +1,7 @@
 .DS_Store
 *.out
+*.bmp
 main.c
 make.sh
 SHA/*
-AES/ou
+AES/out
