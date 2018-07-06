@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
-#include "aes.h"
+#include "../aes.h"
 #include "ecb.h"
 #include "padding.h"
 
