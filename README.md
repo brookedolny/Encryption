@@ -21,8 +21,8 @@ Where the block size is given as the number of 4 byte words, key length is given
 
 ## Block Cipher Mode of Operation
 
-Because block ciphers only encrypt a specific number of bits, a mode of operation is required to encrypt a file. 
-If the size of a file is not 
+Because block ciphers only encrypt `N` bits, a mode of operation is required to encrypt a file. Even with a mode of operation, a block cipher can still only encrypt a multiple of `N` bits.
+If the size of a file is not a multiple of `N` bits, then padding is added to make the file a multiple of `N` bits. 
 
 ### Electronic Codebook (ECB)
 
