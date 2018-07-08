@@ -1,5 +1,5 @@
 # Encryption
-An implementation of the Advanced Encryption Standard; a block cipher. 
+A library of my own implementations of various forms of encryption.
 
 ## Advanced Encryption Standard (AES)
 The AES is a block cipher that operates on sets of 128 bits. Each byte in the plaintext is put into a 4x4 matrix, which is transformed into the ciphertext.
