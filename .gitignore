@@ -3,5 +3,4 @@
 *.bmp
 main.c
 make.sh
-SHA/*
 AES/out
