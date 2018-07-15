@@ -1,6 +1,8 @@
 # Encryption
 A library of my own implementations of various forms of encryption.
 
+Currently have a working implementation of the Advanced Encryption Standard, with two Modes of Operation: CBC and ECB.
+
 ## Advanced Encryption Standard (AES)
 The AES is a block cipher that operates on sets of 128 bits. Each byte in the plaintext is put into a 4x4 matrix, which is transformed into the ciphertext.
 
