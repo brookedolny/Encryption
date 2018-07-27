@@ -21,6 +21,6 @@ void SHA1Padding(uint8_t * message, size_t length);
  * @param message the message consisting of 64 1-byte blocks
  * @param parsed the parsed message location, consisting of 16 4-byte blocks
  */
-void SHA1Parsing(uint8_t * message, uint32_t * parsed) ;
+void SHA1Parsing(uint8_t * message, uint32_t * parsed);
 
 #endif
