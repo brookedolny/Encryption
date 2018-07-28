@@ -23,4 +23,10 @@ void SHA1Padding(uint8_t * message, size_t length);
  */
 void SHA1Parsing(uint8_t * message, uint32_t * parsed);
 
+void initalSHA1HashValue(uint32_t * hash);
+
+void messageSchedule(uint32_t * message, uint32_t * words);
+
+void SHA1Iteration(uint32_t * message, uint32_t * hash, size_t size);
+
 #endif
