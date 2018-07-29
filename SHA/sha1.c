@@ -41,8 +41,7 @@ void messageSchedule(uint32_t * message, uint32_t * words) {
     }
 }
 
-
-void SHA1Iteration(uint32_t * message, uint32_t * hash, size_t size) {
+void SHA1Iteration(uint32_t * message, uint32_t * hash) {
     uint32_t words[80];
     uint32_t working[5];
     uint32_t temp;

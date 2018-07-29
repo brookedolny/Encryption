@@ -1,5 +1,8 @@
 #include <stdint.h>
 
+/**
+ * SHA1 algorithm constants
+ */
 uint32_t K_1[80] = {
       0x5a827999, 0x5a827999, 0x5a827999, 0x5a827999, 0x5a827999
     , 0x5a827999, 0x5a827999, 0x5a827999, 0x5a827999, 0x5a827999
@@ -19,6 +22,9 @@ uint32_t K_1[80] = {
     , 0xca62c1d6, 0xca62c1d6, 0xca62c1d6, 0xca62c1d6, 0xca62c1d6
 };
 
+/**
+ * Constants array used for SHA-224 and SHA-256
+ */
 uint32_t K_256[64] = {
       0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5
     , 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5
@@ -38,6 +44,9 @@ uint32_t K_256[64] = {
     , 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
 
+/**
+ * Constants used for SHA-384, SHA-512, SHA-512/224, SHA-512/256
+ */
 uint64_t K_512[80] = {
       0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f, 0xe9b5dba58189dbbc
     , 0x3956c25bf348b538, 0x59f111f1b605d019, 0x923f82a4af194f9b, 0xab1c5ed5da6d8118
