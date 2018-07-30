@@ -10,9 +10,9 @@ extern uint64_t K_512[80];
 
 
 /**
- * Adds SHA1 padding to the last block of the message
+ * Adds SHA1 padding to the last block of the message.
  * @param message the last block of the message to be hashed. The array should have
- *    a length of 64.
+ *    a length of 64. Note that this should be the last message block.
  * @param length the length of the whole message (in bits).
  */
 void SHA1Padding(uint8_t * message, size_t length);
