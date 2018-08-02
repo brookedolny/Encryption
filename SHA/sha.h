@@ -8,11 +8,10 @@ extern uint32_t K_1[80];
 extern uint64_t K_256[64];
 extern uint64_t K_512[80];
 
-
 /**
  * Adds SHA1 padding to the last block of the message.
  * @param message the last block of the message to be hashed. The array should have
- *    a length of 64. Note that this should be the last message block.
+ *    a length of 64. Note that this  should be the last message block.
  * @param length the length of the whole message (in bits).
  */
 void SHA1Padding(uint8_t * message, size_t length);
@@ -46,5 +45,10 @@ void messageSchedule(uint32_t * message, uint32_t * words);
  */
 void SHA1Iteration(uint32_t * message, uint32_t * hash);
 
+/**
+ * Computes the SHA1 hash from a message from stdin
+ * @param hash the location to store the final SHA1 hash
+ */
+void SHA1(uint32_t * hash);
 
 #endif
