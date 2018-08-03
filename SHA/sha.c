@@ -1,4 +1,5 @@
 #include "sha.h"
+#include "sha1.h"
 #include <stdio.h>
 
 void SHA1(uint32_t * hash) {
