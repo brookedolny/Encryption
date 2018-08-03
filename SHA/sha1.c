@@ -5,9 +5,9 @@
 void SHA1Padding(uint8_t * message, size_t length) {
     int k = (448 - length - 1) % 512;
     uint8_t padding = 0x80;
-    int index = length / 8 % 8;
+    int index = (length / 8) % 64;
     message[index] = 0x80;
-    memset(message + index + 1, 0, 56);
+    memset(message + index + 1, 0, 64 - index - 1);
     for(int i = 0; i < 8; i++) {
         padding = (uint8_t) length % 256;
         message[64 - 1 - i] = padding;
