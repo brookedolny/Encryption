@@ -6,7 +6,7 @@
 #include "ecb.h"
 #include "padding.h"
 
-void cleanECBMemory(uint8_t * text, uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
+void ecbCleanMemory(uint8_t * text, uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     for(int i = 0; i < Nb * 4; i++) {
         text[i] = 0;
     }
@@ -46,7 +46,7 @@ void ecbEncryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
         fwrite(text, 1, 16, ciphertextStream);
     }
 
-    cleanECBMemory(text, key, words, Nk, Nb, Nr);
+    ecbCleanMemory(text, key, words, Nk, Nb, Nr);
 }
 
 
@@ -82,5 +82,5 @@ void ecbDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
         fwrite(text, 1, elements, ciphertextStream);
     }
 
-    cleanECBMemory(text, key, words, Nk, Nb, Nr);
+    ecbCleanMemory(text, key, words, Nk, Nb, Nr);
 }

@@ -27,7 +27,7 @@ void cbcDecryptBlock(uint8_t * previous, uint8_t * text, uint8_t words[][4], int
     }
 }
 
-void cleanCBCMemory(uint8_t * previous, uint8_t * text, uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
+void cbcCleanMemory(uint8_t * previous, uint8_t * text, uint8_t * key, uint8_t words[][4], int Nk, int Nb, int Nr) {
     for(int i = 0; i < Nb * 4; i++) {
         previous[i] = 0;
         text[i] = 0;
@@ -81,7 +81,7 @@ void cbcEncryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
         fwrite(text, 1, 16, ciphertextStream);
     }
 
-    cleanCBCMemory(previous, text, key, words, Nk, Nb, Nr);
+    cbcCleanMemory(previous, text, key, words, Nk, Nb, Nr);
 }
 
 void cbcDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * key, int type) {
@@ -135,7 +135,7 @@ void cbcDecryptFile(FILE * plaintextStream, FILE * ciphertextStream, uint8_t * k
         fwrite(text, 1, elements, ciphertextStream);
     }
 
-    cleanCBCMemory(previous, text, key, words, Nk, Nb, Nr);
+    cbcCleanMemory(previous, text, key, words, Nk, Nb, Nr);
     for(int i = 0; i < 16; i++) {
         previousCipher[i] = 0;
     }
