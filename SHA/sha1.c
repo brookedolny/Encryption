@@ -32,7 +32,7 @@ void initalSHA1HashValue(uint32_t * hash) {
     hash[4] = 0xc3d2e1f0;
 }
 
-void messageSchedule(uint32_t * message, uint32_t * words) {
+void SHA1MessageSchedule(uint32_t * message, uint32_t * words) {
     for(int i = 0; i < 16; i++) {
         words[i] = message[i];
     }
@@ -48,7 +48,7 @@ void SHA1Iteration(uint32_t * message, uint32_t * hash) {
     for(int i = 0; i < 5; i++) {
         working[i] = hash[i];
     }
-    messageSchedule(message, words);
+    SHA1MessageSchedule(message, words);
     for(int i = 0; i < 80; i++) {
         temp = rotateLeft(working[0], 5, 32) + working[4] + K_1[i] + words[i];
         switch(i / 20) {
