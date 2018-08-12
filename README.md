@@ -32,9 +32,9 @@ ECB is a mode of operation that takes each group of 128 bits and encrypts them w
 Although each block will be encrypted, because of the nature of the AES, identical plaintext blocks, encrypted with the same key, will produce the same ciphertext. 
 This causes obvious problems, as it becomes difficult to hide data patterns in a file, as demonstrated by the following images:
 
-![alt text](/AES/out/tux.bmp "Plaintext Image") 
-![alt text](/AES/out/encrypted_ecb.bmp "ECB Image")
-![alt text](/AES/out/encrypted_cbc.bmp "CBC Image")
+![alt text](/aes/out/tux.bmp "Plaintext Image") 
+![alt text](/aes/out/encrypted_ecb.bmp "ECB Image")
+![alt text](/aes/out/encrypted_cbc.bmp "CBC Image")
 
 The first image is the original plaintext image. 
 The second image is the plaintext image encrypted with the AES, but using the ECB mode of encryption. 
