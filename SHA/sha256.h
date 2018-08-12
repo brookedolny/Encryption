@@ -18,4 +18,6 @@ void initalSHA256HashValue(uint32_t * hash);
 
 void SHA256MessageSchedule(uint32_t * message, uint32_t * words);
 
+void SHA256Iteration(uint32_t * message, uint32_t * hash);
+
 #endif

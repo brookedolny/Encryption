@@ -40,3 +40,35 @@ void initalSHA256HashValue(uint32_t * hash) {
     hash[6] = 0x1f83d9ab;
     hash[7] = 0x5be0cd19;
 }
+
+void SHA256MessageSchedule(uint32_t * message, uint32_t * words) {
+    for(int i = 0; i < 16; i++) {
+        words[i] = message[i];
+    }
+    for(int i = 16; i < 64; i++) {
+        words[i] = s_1_256(words[i - 2]) + words[i - 7] + s_0_256(words[i - 15]) + words[i - 16];
+    }
+}
+
+void SHA256Iteration(uint32_t * message, uint32_t * hash) {
+    uint32_t temp1 = 0;
+    uint32_t temp2 = 0;
+    uint32_t words[64];
+    uint32_t working[8];
+    SHA256MessageSchedule(message, words);
+    for(int i = 0; i < 8; i++) {
+        working[i] = hash[i];
+    }
+    for(int i = 0; i < 64; i++) {
+        temp1 = working[7] + S_1_256(working[4]) + choose(working[4], working[5], working[6]) + K_256[i] + words[i];
+        temp2 = S_0_256(working[0]) + majority(working[0], working[1], working[2]);
+        for(int j = 7; j > 0; j--) {
+            working[j] = working[j - 1];
+        }
+        working[4] += temp1;
+        working[0] = temp1 + temp2;
+    }
+    for(int i = 0; i < 8; i++) {
+        hash[i] += working[i];
+    }
+}
