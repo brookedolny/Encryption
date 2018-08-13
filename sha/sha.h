@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-extern uint64_t K_256[64];
 extern uint64_t K_512[80];
 
 void SHA1init(uint32_t * hash);
