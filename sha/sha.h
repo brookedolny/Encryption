@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-extern uint64_t K_512[80];
-
 /**
  * Initalizes the hash for SHA1
  * @param hash the hash to be initalized

@@ -2,5 +2,4 @@
 *.out
 *.bmp
 main.c
-make.sh
 AES/out

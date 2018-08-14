@@ -1,6 +1,6 @@
 #include "sha.h"
-#include "sha1.h"
-#include "sha256.h"
+#include "private/sha1.h"
+#include "private/sha256.h"
 
 void SHA1init(uint32_t * hash) {
     initalSHA1HashValue(hash);
