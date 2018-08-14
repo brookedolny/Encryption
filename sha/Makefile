@@ -1,5 +1,5 @@
-SOURCE=main.c sha.c private/sha1.c private/sha256.c private/sha_tables.c
-HEADER=sha.h private/sha1.h private/sha256.h private/sha_functions.h
+SOURCE=main.c sha.c private/sha1.c private/sha256.c private/sha512.c private/sha_tables.c
+HEADER=sha.h private/sha1.h private/sha256.h private/sha512.h private/sha_functions.h
 TARGET=sha.out
 
 all: $(TARGET)
