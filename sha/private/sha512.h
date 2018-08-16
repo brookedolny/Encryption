@@ -34,4 +34,12 @@ void SHA512Padding(uint8_t * message, size_t length);
 
 void SHA512Parsing(uint8_t * message, uint64_t * parsed);
 
+void initalSHA384HashValue(uint64_t * hash);
+
+void initalSHA512HashValue(uint64_t * hash);
+
+void SHA512MessageSchedule(uint64_t * message, uint64_t * words);
+
+void SHA512Iteration(uint64_t * message, uint64_t * hash);
+
 #endif

@@ -61,3 +61,35 @@ void initalSHA512HashValue(uint64_t * hash) {
     hash[6] = 0x1f83d9abfb41bd6b;
     hash[7] = 0x5be0cd19137e2179;
 }
+
+void SHA512MessageSchedule(uint64_t * message, uint64_t * words) {
+    for(int i = 0; i < 16; i++) {
+        words[i] = message[i];
+    }
+    for(int i = 16; i < 80; i++) {
+        words[i] = s_1_512(words[i - 2]) + words[i - 7] + s_0_512(words[i - 15]) + words[i - 16];
+    }
+}
+
+void SHA512Iteration(uint64_t * message, uint64_t * hash) {
+    uint64_t temp1 = 0;
+    uint64_t temp2 = 0;
+    uint64_t words[80];
+    uint64_t working[8];
+    SHA512MessageSchedule(message, words);
+    for(int i = 0; i < 8; i++) {
+        working[i] = hash[i];
+    }
+    for(int i = 0; i < 80; i++) {
+        temp1 = working[7] + S_1_512(working[4]) + choose(working[4], working[5], working[6]) + K_512[i] + words[i];
+        temp2 = S_0_512(working[0]) + majority(working[0], working[1], working[2]);
+        for(int j = 7; j > 0; j--) {
+            working[j] = working[j - 1];
+        }
+        working[4] += temp1;
+        working[0] = temp1 + temp2;
+    }
+    for(int i = 0; i < 8; i++) {
+        hash[i] += working[i];
+    }
+}

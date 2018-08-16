@@ -38,10 +38,24 @@ void SHA224(FILE * input, uint32_t * hash);
 void SHA256init(uint32_t * hash);
 
 /**
- * Computes the SHA1 hash from a message from stdin
+ * Computes the SHA256 hash from a message from stdin
  * @param input the input filestream
  * @param hash the location to store the final SHA1 hash
  */
 void SHA256(FILE * input, uint32_t * hash);
+
+/**
+ * Initalizes the hash for SHA512
+ * @param hash the hash to be initalized
+ */
+void SHA512init(uint64_t * hash);
+
+/**
+ * Computes the SHA512 hash from a message from stdin
+ * @param input the input filestream
+ * @param hash the location to store the final SHA1 hash
+ */
+void SHA512(FILE * input, uint64_t * hash);
+
 
 #endif
