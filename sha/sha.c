@@ -64,6 +64,16 @@ void SHA256(FILE * input, uint32_t * hash) {
     }
 }
 
+void SHA384init(uint64_t * hash) {
+    initalSHA384HashValue(hash);
+}
+
+void SHA384(FILE * input, uint64_t * hash) {
+    SHA512(input, hash);
+    hash[6] = 0;
+    hash[7] = 0;
+}
+
 void SHA512init(uint64_t * hash) {
     initalSHA512HashValue(hash);
 }
