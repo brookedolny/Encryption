@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-extern uint8_t sbox[256];
+extern uint8_t sboxAES[256];
 extern uint8_t rcon[256];
-extern uint8_t invSbox[256];
+extern uint8_t invSboxAES[256];
 /**
  * Multiplies a given binary polynomial by the binary polynomial x modulo the
  * binary polynomial m(x) = x^8 + x^4 + x^3 + x + 1.

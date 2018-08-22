@@ -97,13 +97,13 @@ void invMixColumns(uint8_t state[4][4]) {
 
 void subWord(uint8_t * word) {
     for(int i = 0; i < 4; i++) {
-        word[i] = sbox[word[i]];
+        word[i] = sboxAES[word[i]];
     }
 }
 
 void invSubWord(uint8_t * word) {
     for(int i = 0; i < 4; i++) {
-        word[i] = invSbox[word[i]];
+        word[i] = invSboxAES[word[i]];
     }
 }
 
@@ -111,7 +111,7 @@ void invSubWord(uint8_t * word) {
 void subBytes(uint8_t state[4][4]) {
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
-            state[i][j] = sbox[state[i][j]];
+            state[i][j] = sboxAES[state[i][j]];
         }
     }
 }
@@ -119,7 +119,7 @@ void subBytes(uint8_t state[4][4]) {
 void invSubBytes(uint8_t state[4][4]) {
     for(int i = 0; i < 4; i++) {
         for(int j = 0; j < 4; j++) {
-            state[i][j] = invSbox[state[i][j]];
+            state[i][j] = invSboxAES[state[i][j]];
         }
     }
 }
