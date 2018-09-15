@@ -40,7 +40,7 @@ as demonstrated by the following images:
 The first image is the original plaintext image. 
 The second image is the plaintext image encrypted with the AES, but using the ECB mode of encryption. 
 The third image is the plaintext image encrypted with the AES, but using another, more secure, mode of operation. 
-Note that the CBC image hides data patterns significantly better than teh ECB image, and appears pseudorandom.
+Note that the CBC image hides data patterns significantly better than the ECB image, and appears pseudorandom.
 
 ### Cipher Block Chaining (CBC)
 
@@ -56,5 +56,5 @@ the key in order to decrypt the file.
 
 Thus, we can circumvent the need for an IV by appending a random "garbage" block to the beginning of the message, 
 and discarding it upon decryption. Since decrypting the message only depends on the previous ciphertext, 
-and the "garbage" block is not part of the plaintext,one can obtain the original plaintext without communicating an 
+and the "garbage" block is not part of the plaintext, one can obtain the original plaintext without communicating an 
 initalization vector!
